@@ -1,4 +1,4 @@
-package com.repleyva.tempus.ui.theme
+package com.repleyva.tempus.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
