@@ -1,6 +1,5 @@
-package com.repleyva.tempus.ui.theme
+package com.repleyva.tempus.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
