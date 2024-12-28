@@ -40,6 +40,7 @@ runtimeLivedata = "1.7.3"
 appcompat = "1.7.0"
 constraintlayout = "1.0.1"
 navigationTesting = "2.8.2"
+chucker = "4.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -73,6 +74,10 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
+
+#chuck
+chuck-debug = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
+chuck-release = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
 
 # News and Weather
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
