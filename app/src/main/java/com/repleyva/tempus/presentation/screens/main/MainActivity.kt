@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
+    private val settingsViewModel by viewModels<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,30 +46,11 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            TempusTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
 
+            val isDarkModeEnabled by settingsViewModel.theme.collectAsState()
 
-@Composable
-fun Greeting(
-    name: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
             TempusTheme(
+                darkTheme = isDarkModeEnabled,
                 dynamicColor = false
             ) {
                 Box(
