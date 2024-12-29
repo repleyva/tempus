@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import com.repleyva.tempus.presentation.nav.NewsNavGraph
 import com.repleyva.tempus.presentation.screens.settings.SettingsViewModel
 import com.repleyva.tempus.presentation.theme.TempusTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,7 +59,8 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.colorScheme.background)
                         .testTag("MainActivityBox")
                 ) {
-
+                    val startDestination = viewModel.uiState.value.startDestination
+                    NewsNavGraph(startDestination = startDestination)
                 }
             }
         }
