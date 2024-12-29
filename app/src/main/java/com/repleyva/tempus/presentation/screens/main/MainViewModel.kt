@@ -2,7 +2,7 @@ package com.repleyva.tempus.presentation.screens.main
 
 import androidx.lifecycle.viewModelScope
 import com.repleyva.tempus.domain.use_cases.app_entry.AppEntryUseCases
-import com.repleyva.tempus.presentation.base.MVIBaseViewModel
+import com.repleyva.tempus.presentation.base.SimpleMVIBaseViewModel
 import com.repleyva.tempus.presentation.nav.NewsRouter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val appEntryUseCases: AppEntryUseCases,
-) : MVIBaseViewModel<MainState, MainEvent, MainAction>() {
+) : SimpleMVIBaseViewModel<MainState, MainEvent>() {
 
     override fun initState(): MainState = MainState()
 
