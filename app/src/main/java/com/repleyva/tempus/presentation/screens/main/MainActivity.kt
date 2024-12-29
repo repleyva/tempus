@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.repleyva.tempus.presentation.nav.NewsNavGraph
 import com.repleyva.tempus.presentation.screens.settings.SettingsViewModel
 import com.repleyva.tempus.presentation.theme.TempusTheme
@@ -59,8 +60,10 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.colorScheme.background)
                         .testTag("MainActivityBox")
                 ) {
-                    val startDestination = viewModel.uiState.value.startDestination
-                    NewsNavGraph(startDestination = startDestination)
+
+                    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+                    NewsNavGraph(startDestination = uiState.startDestination)
                 }
             }
         }
