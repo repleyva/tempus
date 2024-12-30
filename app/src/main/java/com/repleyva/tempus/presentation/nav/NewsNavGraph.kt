@@ -19,6 +19,7 @@ fun NewsNavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
+
         navigation(
             route = NewsRouter.AppStartNavigation.route,
             startDestination = NewsRouter.OnboardingScreen.route
@@ -30,6 +31,7 @@ fun NewsNavGraph(
                 OnboardingScreen(event = viewModel::eventHandler)
             }
         }
+
         navigation(
             route = NewsRouter.NewsNavigation.route,
             startDestination = NewsRouter.NewsNavigatorScreen.route
@@ -37,7 +39,7 @@ fun NewsNavGraph(
             composable(
                 route = NewsRouter.NewsNavigatorScreen.route
             ) {
-
+                NewsNavigator()
             }
         }
     }
