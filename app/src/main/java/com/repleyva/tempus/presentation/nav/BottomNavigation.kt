@@ -85,9 +85,7 @@ data class BottomNavigationItem(
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun NewsBottomNavigationPreview() {
-    TempusTheme(
-        dynamicColor = false
-    ) {
+    TempusTheme(dynamicColor = false) {
         BottomNavigation(items = listOf(
             BottomNavigationItem(icon = R.drawable.ic_home, text = stringResource(R.string.home)),
             BottomNavigationItem(icon = R.drawable.ic_explore, text = stringResource(R.string.explore)),
