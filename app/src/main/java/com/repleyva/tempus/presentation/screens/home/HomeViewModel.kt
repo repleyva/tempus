@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.repleyva.tempus.data.remote.api.WeatherApi
+import com.repleyva.tempus.domain.constants.CacheConstants.BREAKING_NEWS
+import com.repleyva.tempus.domain.constants.CacheConstants.EVERYTHING_NEWS
+import com.repleyva.tempus.domain.constants.Constants.COUNTRY_PREFIX_DEFAULT
 import com.repleyva.tempus.domain.constants.Constants.FIVE_MINUTES_MILLIS
 import com.repleyva.tempus.domain.constants.Constants.SOURCES
 import com.repleyva.tempus.domain.constants.Constants.WEATHER_KEY
 import com.repleyva.tempus.domain.constants.Constants.WEATHER_URL
-import com.repleyva.tempus.domain.constants.Constants.countryPrefixDefault
 import com.repleyva.tempus.domain.extensions.filterArticles
 import com.repleyva.tempus.domain.extensions.timezoneToCity
 import com.repleyva.tempus.domain.manager.ArticleCacheManager
@@ -32,6 +34,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
+/**
+ * Todo: Refactor this
+ */
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val newsUseCases: NewsUseCases,
@@ -49,22 +55,22 @@ class HomeViewModel @Inject constructor(
     val weatherData: StateFlow<WeatherData?> = _weatherData
 
     val breakingNews = channelFlow {
-        val cachedData = articleCacheManager.getCachedArticles("breakingNews")
+        val cachedData = articleCacheManager.getCachedArticles(BREAKING_NEWS)
         if (cachedData != null) {
             send(cachedData.filterArticles())
         } else {
-            newsUseCases.getBreakingNews(countryPrefixDefault) // todo: refactor co val
+            newsUseCases.getBreakingNews(COUNTRY_PREFIX_DEFAULT)
                 .cachedIn(viewModelScope)
                 .collectLatest { articles ->
                     val validArticles = articles.filterArticles()
-                    articleCacheManager.cacheArticles("breakingNews", validArticles)
+                    articleCacheManager.cacheArticles(BREAKING_NEWS, validArticles)
                     send(validArticles)
                 }
         }
     }
 
     val everythingNews = channelFlow {
-        val cachedData = articleCacheManager.getCachedArticles("everythingNews")
+        val cachedData = articleCacheManager.getCachedArticles(EVERYTHING_NEWS)
         if (cachedData != null) {
             send(cachedData.filterArticles())
         } else {
@@ -72,7 +78,7 @@ class HomeViewModel @Inject constructor(
                 .cachedIn(viewModelScope)
                 .collectLatest { articles ->
                     val validArticles = articles.filterArticles()
-                    articleCacheManager.cacheArticles("everythingNews", validArticles)
+                    articleCacheManager.cacheArticles(EVERYTHING_NEWS, validArticles)
                     send(validArticles)
                 }
         }
@@ -130,13 +136,13 @@ class HomeViewModel @Inject constructor(
 
     private fun refreshBreakingNews() {
         viewModelScope.launch {
-            val cachedData = articleCacheManager.getCachedArticles("breakingNews")
+            val cachedData = articleCacheManager.getCachedArticles(BREAKING_NEWS)
             if (cachedData == null) {
-                newsUseCases.getBreakingNews(countryPrefixDefault)
+                newsUseCases.getBreakingNews(COUNTRY_PREFIX_DEFAULT)
                     .cachedIn(viewModelScope)
                     .collectLatest { articles ->
                         val validArticles = articles.filterArticles()
-                        articleCacheManager.cacheArticles("breakingNews", validArticles)
+                        articleCacheManager.cacheArticles(BREAKING_NEWS, validArticles)
                     }
             }
         }
@@ -144,13 +150,13 @@ class HomeViewModel @Inject constructor(
 
     private fun refreshEverythingNews() {
         viewModelScope.launch {
-            val cachedData = articleCacheManager.getCachedArticles("everythingNews")
+            val cachedData = articleCacheManager.getCachedArticles(EVERYTHING_NEWS)
             if (cachedData == null) {
                 newsUseCases.getNewsEverything(SOURCES)
                     .cachedIn(viewModelScope)
                     .collectLatest { articles ->
                         val validArticles = articles.filterArticles()
-                        articleCacheManager.cacheArticles("everythingNews", validArticles)
+                        articleCacheManager.cacheArticles(EVERYTHING_NEWS, validArticles)
                     }
             }
         }
