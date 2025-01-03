@@ -3,6 +3,7 @@ package com.repleyva.tempus.data.remote.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.repleyva.tempus.data.remote.api.NewsApi
+import com.repleyva.tempus.domain.constants.Constants.countryPrefixDefault
 import com.repleyva.tempus.domain.model.Article
 import kotlinx.coroutines.delay
 import java.net.SocketTimeoutException
@@ -71,7 +72,7 @@ class NewsPagingSource(
             pageSize = pageSize * 2
         )
         RequestType.BreakingNews -> newsApi.getBreakingNews(
-            country = query ?: "co",
+            country = query ?: countryPrefixDefault,
             page = page,
             pageSize = pageSize * 2
         )
