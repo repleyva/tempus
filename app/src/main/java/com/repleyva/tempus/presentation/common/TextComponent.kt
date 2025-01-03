@@ -232,7 +232,7 @@ fun TextMarquee(
             if (articles.itemCount > 10) {
                 articles.itemSnapshotList.items
                     .slice(IntRange(start = 0, endInclusive = 9))
-                    .joinToString(separator = " \uD83d\uDFE5 ") { it.title }
+                    .joinToString(separator = " \uD83d\uDFE5 ") { it.title.orEmpty() }
             } else {
                 ""
             }
