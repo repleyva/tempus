@@ -17,6 +17,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.repleyva.tempus.R
 import com.repleyva.tempus.presentation.extensions.navigationToTop
+import com.repleyva.tempus.presentation.screens.bookmark.BookmarkScreen
+import com.repleyva.tempus.presentation.screens.detail.DetailScreen
+import com.repleyva.tempus.presentation.screens.explore.ExploreScreen
+import com.repleyva.tempus.presentation.screens.home.HomeScreen
+import com.repleyva.tempus.presentation.screens.settings.SettingsScreen
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingZero
 
 @Composable
@@ -92,23 +97,23 @@ fun NewsNavigator() {
             modifier = Modifier.padding(bottom = bottomPadding)
         ) {
             composable(route = NewsRouter.HomeScreen.route) {
-
+                HomeScreen()
             }
 
             composable(route = NewsRouter.ExploreScreen.route) {
-
+                ExploreScreen()
             }
 
             composable(route = NewsRouter.DetailsScreen.route) {
-
+                DetailScreen()
             }
 
             composable(route = NewsRouter.BookmarkScreen.route) {
-
+                BookmarkScreen()
             }
 
             composable(route = NewsRouter.SettingsScreen.route) {
-
+                SettingsScreen()
             }
         }
     }
