@@ -27,6 +27,7 @@ import com.repleyva.tempus.presentation.screens.home.components.HomeWeatherBar
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingLarge
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingMedium
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingSemiMedium
+import com.repleyva.tempus.presentation.theme.Dimensions.paddingSmall
 import com.repleyva.tempus.presentation.theme.TempusTheme
 import kotlinx.coroutines.flow.flowOf
 
@@ -74,7 +75,7 @@ private fun HomeBody(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = paddingValues.calculateTopPadding())
+            .padding(top = paddingValues.calculateTopPadding(), bottom = paddingSmall)
     ) {
         LazyColumn(Modifier.fillMaxSize()) {
 

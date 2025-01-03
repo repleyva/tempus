@@ -56,7 +56,6 @@ fun HomeCard(
         )
 
         CardSourceTextLarge(
-            modifier = Modifier.padding(bottom = paddingNormal),
             text = article.source.name
         )
     }
