@@ -6,9 +6,7 @@ import com.repleyva.tempus.domain.constants.Constants.FIVE_MINUTES_MILLIS
 import com.repleyva.tempus.domain.manager.ArticleCacheManager
 import com.repleyva.tempus.domain.model.Article
 
-class ArticleCacheManagerImpl(
-    private val context: Context,
-) : ArticleCacheManager {
+class ArticleCacheManagerImpl() : ArticleCacheManager {
 
     private val articleCache = mutableMapOf<String, Pair<Long, PagingData<Article>>>()
     private val cacheDuration = FIVE_MINUTES_MILLIS
