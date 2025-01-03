@@ -19,6 +19,7 @@ object Constants {
 
     const val WEATHER_KEY = BuildConfig.WEATHER_KEY
     const val WEATHER_URL = "https://api.openweathermap.org/data/2.5/"
+    const val countryPrefixDefault = "us"
 
     val CATEGORY_LIST = arrayListOf(
         "Health",

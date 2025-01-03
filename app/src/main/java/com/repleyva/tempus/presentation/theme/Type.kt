@@ -37,10 +37,10 @@ val Typography = Typography(
         lineHeight = 24.sp,
     ),
     titleLarge = TextStyle(
-        fontSize = 26.sp,
+        fontSize = 24.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold,
-        lineHeight = 24.sp,
+        lineHeight = 28.sp,
     ),
     titleMedium = TextStyle(
         fontSize = 16.sp,
@@ -49,10 +49,10 @@ val Typography = Typography(
         lineHeight = 20.sp,
     ),
     titleSmall = TextStyle(
-        fontSize = 14.sp,
+        fontSize = 18.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold,
-        lineHeight = 20.sp,
+        lineHeight = 24.sp,
     ),
     bodyLarge = TextStyle(
         fontSize = 24.sp,
@@ -79,11 +79,12 @@ val Typography = Typography(
         lineHeight = 28.sp,
     ),
     labelMedium = TextStyle(
-        fontSize = 10.sp,
+        fontSize = 14.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
-        lineHeight = 16.sp,
+        lineHeight = 20.sp,
     ),
+
     labelSmall = TextStyle(
         fontSize = 12.sp,
         fontFamily = Poppins,
