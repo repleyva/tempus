@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
-import com.repleyva.tempus.presentation.extensions.breakingNewsEffect
+import com.repleyva.tempus.presentation.extensions.shimmerEffect
 import com.repleyva.tempus.presentation.theme.Dimensions.homeBreakingNewsHeight
 import com.repleyva.tempus.presentation.theme.Dimensions.homeBreakingNewsWidth
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingExtraSmall
@@ -38,7 +38,7 @@ fun BreakingNewsCardEffect(
             modifier = Modifier
                 .size(homeBreakingNewsWidth)
                 .clip(MaterialTheme.shapes.medium)
-                .breakingNewsEffect()
+                .shimmerEffect()
         )
 
         Spacer(modifier = Modifier.height(paddingExtraSmall))
@@ -47,7 +47,7 @@ fun BreakingNewsCardEffect(
             modifier = Modifier
                 .height(paddingMedium)
                 .fillMaxWidth(0.9f)
-                .breakingNewsEffect()
+                .shimmerEffect()
         )
 
         Spacer(modifier = Modifier.height(paddingExtraSmall))
@@ -56,7 +56,7 @@ fun BreakingNewsCardEffect(
             modifier = Modifier
                 .height(paddingMedium)
                 .fillMaxWidth(0.9f)
-                .breakingNewsEffect()
+                .shimmerEffect()
         )
     }
 }
