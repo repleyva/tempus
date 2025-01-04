@@ -29,6 +29,7 @@ import com.repleyva.tempus.presentation.extensions.navigationToTop
 import com.repleyva.tempus.presentation.screens.bookmark.BookmarkScreen
 import com.repleyva.tempus.presentation.screens.detail.DetailScreen
 import com.repleyva.tempus.presentation.screens.explore.ExploreScreen
+import com.repleyva.tempus.presentation.screens.explore.ExploreViewModel
 import com.repleyva.tempus.presentation.screens.home.HomeScreen
 import com.repleyva.tempus.presentation.screens.home.HomeViewModel
 import com.repleyva.tempus.presentation.screens.settings.SettingsScreen
@@ -146,7 +147,25 @@ fun NewsNavigator() {
             }
 
             composable<NewsRouter.ExploreScreen> {
-                ExploreScreen()
+                val viewModel: ExploreViewModel = hiltViewModel()
+                val state = viewModel.state.value
+                val articles = viewModel.articles.collectAsLazyPagingItems()
+                val searchResults = viewModel.searchResults.collectAsLazyPagingItems()
+
+                ExploreScreen(
+                    exploreState = state,
+                    articles = articles,
+                    searchResults = searchResults,
+                    event = viewModel::eventHandler,
+                    isRefreshing = viewModel.isRefreshing.value,
+                    onRefresh = { viewModel.refreshArticles() },
+                    navigateToDetails = { article ->
+                        navigateToDetails(
+                            navController = navController,
+                            article = article
+                        )
+                    }
+                )
             }
 
             composable<NewsRouter.DetailsScreen> {
