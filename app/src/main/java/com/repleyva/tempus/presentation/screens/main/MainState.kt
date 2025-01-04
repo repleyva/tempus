@@ -5,5 +5,5 @@ import com.repleyva.tempus.presentation.nav.NewsRouter
 
 data class MainState(
     val splashCondition: Boolean = true,
-    val startDestination: String = NewsRouter.AppStartNavigation.route,
+    val startDestination: NewsRouter = NewsRouter.AppStartNavigation,
 ) : State

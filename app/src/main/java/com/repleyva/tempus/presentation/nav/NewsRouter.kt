@@ -1,24 +1,34 @@
 package com.repleyva.tempus.presentation.nav
 
-sealed class NewsRouter(
-    val route: String,
-) {
+import kotlinx.serialization.Serializable
 
-    data object OnboardingScreen : NewsRouter("onboardingScreen")
+@Serializable
+sealed interface NewsRouter {
 
-    data object HomeScreen : NewsRouter("homeScreen")
+    @Serializable
+    data object OnboardingScreen : NewsRouter
 
-    data object ExploreScreen : NewsRouter("exploreScreen")
+    @Serializable
+    data object HomeScreen : NewsRouter
 
-    data object BookmarkScreen : NewsRouter("bookmarkScreen")
+    @Serializable
+    data object ExploreScreen : NewsRouter
 
-    data object DetailsScreen : NewsRouter("detailsScreen")
+    @Serializable
+    data object BookmarkScreen : NewsRouter
 
-    data object AppStartNavigation : NewsRouter("appStartNavigation")
+    @Serializable
+    data object DetailsScreen : NewsRouter
 
-    data object NewsNavigation : NewsRouter("newsNavigation")
+    @Serializable
+    data object AppStartNavigation : NewsRouter
 
-    data object NewsNavigatorScreen : NewsRouter("newsNavigator")
+    @Serializable
+    data object NewsNavigation : NewsRouter
 
-    data object SettingsScreen : NewsRouter("settingsScreen")
+    @Serializable
+    data object NewsNavigatorScreen : NewsRouter
+
+    @Serializable
+    data object SettingsScreen : NewsRouter
 }

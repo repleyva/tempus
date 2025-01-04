@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -52,23 +54,31 @@ fun NewsNavigator() {
 
     val navController = rememberNavController()
 
-    val backStackState = navController.currentBackStackEntryAsState()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val selectedItem = remember(key1 = backStackState.value) {
-        when (backStackState.value?.destination?.route) {
-            NewsRouter.HomeScreen.route -> 0
-            NewsRouter.ExploreScreen.route -> 1
-            NewsRouter.BookmarkScreen.route -> 2
-            NewsRouter.SettingsScreen.route -> 3
-            else -> 0
-        }
+    val currentDestination = navBackStackEntry?.destination
+
+    val routerToIndex = remember {
+        mapOf(
+            NewsRouter.HomeScreen::class to 0,
+            NewsRouter.ExploreScreen::class to 1,
+            NewsRouter.BookmarkScreen::class to 2,
+            NewsRouter.SettingsScreen::class to 3
+        )
     }
 
-    val isBottomBarVisible = remember(key1 = backStackState.value) {
-        (backStackState.value?.destination?.route == NewsRouter.HomeScreen.route)
-            .or(backStackState.value?.destination?.route == NewsRouter.ExploreScreen.route)
-            .or(backStackState.value?.destination?.route == NewsRouter.BookmarkScreen.route)
-            .or(backStackState.value?.destination?.route == NewsRouter.SettingsScreen.route)
+    val selectedItem = remember(key1 = currentDestination) {
+        currentDestination?.hierarchy
+            ?.firstNotNullOfOrNull { destination ->
+                routerToIndex.entries.firstOrNull { (route, _) -> destination.hasRoute(route) }?.value
+            } ?: 0
+    }
+
+    val isBottomBarVisible = remember(key1 = currentDestination) {
+        currentDestination?.hierarchy
+            ?.any { destination ->
+                routerToIndex.keys.any { route -> destination.hasRoute(route) }
+            } == true
     }
 
     Scaffold(
@@ -85,10 +95,10 @@ fun NewsNavigator() {
                     selected = selectedItem,
                     onItemClick = { index ->
                         val route = when (index) {
-                            0 -> NewsRouter.HomeScreen.route
-                            1 -> NewsRouter.ExploreScreen.route
-                            2 -> NewsRouter.BookmarkScreen.route
-                            3 -> NewsRouter.SettingsScreen.route
+                            0 -> NewsRouter.HomeScreen
+                            1 -> NewsRouter.ExploreScreen
+                            2 -> NewsRouter.BookmarkScreen
+                            3 -> NewsRouter.SettingsScreen
                             else -> null
                         }
                         route?.let { navController.navigationToTop(it) }
@@ -102,10 +112,10 @@ fun NewsNavigator() {
 
         NavHost(
             navController = navController,
-            startDestination = NewsRouter.HomeScreen.route,
+            startDestination = NewsRouter.HomeScreen,
             modifier = Modifier.padding(bottom = bottomPadding)
         ) {
-            composable(route = NewsRouter.HomeScreen.route) {
+            composable<NewsRouter.HomeScreen> {
                 val homeViewModel: HomeViewModel = hiltViewModel()
                 val settingsViewModel: SettingsViewModel = hiltViewModel()
                 val everythingNews = homeViewModel.everythingNews.collectAsLazyPagingItems()
@@ -135,24 +145,23 @@ fun NewsNavigator() {
                 )
             }
 
-            composable(route = NewsRouter.ExploreScreen.route) {
+            composable<NewsRouter.ExploreScreen> {
                 ExploreScreen()
             }
 
-            composable(route = NewsRouter.DetailsScreen.route) {
+            composable<NewsRouter.DetailsScreen> {
                 DetailScreen()
             }
 
-            composable(route = NewsRouter.BookmarkScreen.route) {
+            composable<NewsRouter.BookmarkScreen> {
                 BookmarkScreen()
             }
 
-            composable(route = NewsRouter.SettingsScreen.route) {
+            composable<NewsRouter.SettingsScreen> {
                 SettingsScreen()
             }
         }
     }
-
 }
 
 private fun navigateToDetails(
@@ -160,5 +169,5 @@ private fun navigateToDetails(
     article: Article,
 ) {
     navController.currentBackStackEntry?.savedStateHandle?.set("article", article)
-    navController.navigate(NewsRouter.DetailsScreen.route)
+    navController.navigate(NewsRouter.DetailsScreen)
 }
