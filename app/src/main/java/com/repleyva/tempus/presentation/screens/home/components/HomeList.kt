@@ -12,11 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.repleyva.tempus.R
 import com.repleyva.tempus.domain.model.Article
-import com.repleyva.tempus.presentation.common.EmptyScreen
+import com.repleyva.tempus.presentation.extensions.articlesPagingResultHandler
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingLarge
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingMedium
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingZero
@@ -28,9 +27,9 @@ fun HomeList(
     onClick: (Article) -> Unit,
 ) {
 
-    val breakingNewsHandlePagingResult = homePagingResult(articles = articles)
+    val handlePagingResult = articles.articlesPagingResultHandler { ShimmerEffect() }
 
-    if (breakingNewsHandlePagingResult) {
+    if (handlePagingResult) {
 
         if (articles.itemCount > 0) {
             LazyRow(
@@ -61,36 +60,6 @@ fun HomeList(
                 )
             }
         }
-    }
-}
-
-
-@Composable
-private fun homePagingResult(articles: LazyPagingItems<Article>): Boolean {
-
-    val loadState = articles.loadState
-
-    val error = when {
-        loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
-        loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
-        loadState.append is LoadState.Error -> loadState.append as LoadState.Error
-        else -> null
-    }
-
-    return when {
-        loadState.refresh is LoadState.Loading -> {
-            ShimmerEffect()
-            false
-        }
-        error != null -> {
-            EmptyScreen(error = error)
-            false
-        }
-        articles.itemCount < 1 -> {
-            EmptyScreen()
-            false
-        }
-        else -> true
     }
 }
 

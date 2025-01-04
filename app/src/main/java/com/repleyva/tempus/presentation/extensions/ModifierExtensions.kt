@@ -10,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 
-fun Modifier.breakingNewsEffect() = composed {
+fun Modifier.shimmerEffect() = composed {
     val transition = rememberInfiniteTransition(label = "")
     val alpha = transition.animateFloat(
         initialValue = 0.2f,

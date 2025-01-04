@@ -1,6 +1,5 @@
 package com.repleyva.tempus.data.manager
 
-import android.content.Context
 import androidx.paging.PagingData
 import com.repleyva.tempus.domain.constants.Constants.FIVE_MINUTES_MILLIS
 import com.repleyva.tempus.domain.manager.ArticleCacheManager
