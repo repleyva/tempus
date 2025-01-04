@@ -34,7 +34,7 @@ hilt-android = "2.52"
 kotlin-parcelize = "2.0.20"
 
 ksp = "2.0.20-1.0.25"
-kotlin-serialization = "2.0.0"
+kotlin-serialization-plugin = "2.0.0"
 kotlin-serialization = "1.7.3"
 uiTestAndroid = "1.7.3"
 runtimeLivedata = "1.7.3"
@@ -116,7 +116,7 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization-plugin" }
 
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-kapt" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin-parcelize" }
