@@ -11,7 +11,7 @@ import com.repleyva.tempus.presentation.screens.onboarding.OnboardingViewModel
 
 @Composable
 fun NewsNavGraph(
-    startDestination: String,
+    startDestination: NewsRouter,
 ) {
     val navController = rememberNavController()
 
@@ -20,25 +20,19 @@ fun NewsNavGraph(
         startDestination = startDestination
     ) {
 
-        navigation(
-            route = NewsRouter.AppStartNavigation.route,
-            startDestination = NewsRouter.OnboardingScreen.route
+        navigation<NewsRouter.AppStartNavigation>(
+            startDestination = NewsRouter.OnboardingScreen
         ) {
-            composable(
-                route = NewsRouter.OnboardingScreen.route
-            ) {
+            composable<NewsRouter.OnboardingScreen> {
                 val viewModel: OnboardingViewModel = hiltViewModel()
                 OnboardingScreen(event = viewModel::eventHandler)
             }
         }
 
-        navigation(
-            route = NewsRouter.NewsNavigation.route,
-            startDestination = NewsRouter.NewsNavigatorScreen.route
+        navigation<NewsRouter.NewsNavigation>(
+            startDestination = NewsRouter.NewsNavigatorScreen
         ) {
-            composable(
-                route = NewsRouter.NewsNavigatorScreen.route
-            ) {
+            composable<NewsRouter.NewsNavigatorScreen> {
                 NewsNavigator()
             }
         }

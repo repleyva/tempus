@@ -106,6 +106,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.datastore.preferences)
     implementation(libs.compose.foundation)
+    implementation(libs.kotlinx.serialization)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
     implementation(libs.room.runtime)

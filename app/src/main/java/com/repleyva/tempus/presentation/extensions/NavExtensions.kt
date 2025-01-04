@@ -2,10 +2,10 @@ package com.repleyva.tempus.presentation.extensions
 
 import androidx.navigation.NavController
 
-fun NavController.navigationToTop(
-    route: String,
+fun <T: Any>NavController.navigationToTop(
+    newsRouter: T,
 ) {
-    navigate(route) {
+    navigate(newsRouter) {
         graph.startDestinationRoute?.let { homeScreen ->
             popUpTo(homeScreen) {
                 saveState = true

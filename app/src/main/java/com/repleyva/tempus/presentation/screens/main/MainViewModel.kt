@@ -29,9 +29,9 @@ class MainViewModel @Inject constructor(
             updateUi {
                 copy(
                     startDestination = if (shouldStartFromHomeScreen) {
-                        NewsRouter.NewsNavigation.route
+                        NewsRouter.NewsNavigation
                     } else {
-                        NewsRouter.AppStartNavigation.route
+                        NewsRouter.AppStartNavigation
                     }
                 )
             }
