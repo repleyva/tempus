@@ -8,7 +8,7 @@ class UpsertArticle(
     private val newsDao: NewsDao,
 ) {
     suspend operator fun invoke(article: Article) {
-        if (!article.source.name.isNullOrEmpty()) {
+        if (article.source.name.isNotEmpty()) {
             newsDao.upsert(article)
         } else {
             Log.e("UpsertArticle", "Source name is null.")
