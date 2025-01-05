@@ -59,7 +59,7 @@ fun DetailsBar(
             IconButton(onClick = onBrowsingClick) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_network),
-                    contentDescription = "Browse"
+                    contentDescription = "Browser"
                 )
             }
         }
