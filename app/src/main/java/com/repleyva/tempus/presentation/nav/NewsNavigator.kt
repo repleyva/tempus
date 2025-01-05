@@ -1,5 +1,6 @@
 package com.repleyva.tempus.presentation.nav
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -13,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -27,7 +29,9 @@ import com.repleyva.tempus.R
 import com.repleyva.tempus.domain.model.Article
 import com.repleyva.tempus.presentation.extensions.navigationToTop
 import com.repleyva.tempus.presentation.screens.bookmark.BookmarkScreen
-import com.repleyva.tempus.presentation.screens.detail.DetailScreen
+import com.repleyva.tempus.presentation.screens.detail.DetailsEvent
+import com.repleyva.tempus.presentation.screens.detail.DetailsScreen
+import com.repleyva.tempus.presentation.screens.detail.DetailsViewModel
 import com.repleyva.tempus.presentation.screens.explore.ExploreScreen
 import com.repleyva.tempus.presentation.screens.explore.ExploreViewModel
 import com.repleyva.tempus.presentation.screens.home.HomeScreen
@@ -169,7 +173,21 @@ fun NewsNavigator() {
             }
 
             composable<NewsRouter.DetailsScreen> {
-                DetailScreen()
+                val viewModel: DetailsViewModel = hiltViewModel()
+                if (viewModel.sideEffect != null) {
+                    Toast.makeText(LocalContext.current, viewModel.sideEffect, Toast.LENGTH_SHORT).show()
+                    viewModel.eventHandler(DetailsEvent.RemoveSideEffect)
+                }
+                navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
+                    DetailsScreen(
+                        article = article,
+                        event = viewModel::eventHandler,
+                        navigateUp = {
+                            navController.navigateUp()
+                            navController.currentBackStackEntry?.savedStateHandle?.remove<Article>("article")
+                        }
+                    )
+                }
             }
 
             composable<NewsRouter.BookmarkScreen> {
