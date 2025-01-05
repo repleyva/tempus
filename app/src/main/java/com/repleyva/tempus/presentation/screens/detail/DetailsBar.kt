@@ -13,7 +13,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.repleyva.tempus.R
 import com.repleyva.tempus.presentation.theme.Dimensions.articleNavigationHeight
@@ -38,7 +39,7 @@ fun DetailsBar(
         title = {
             IconButton(onClick = onBackClick) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_back_arrow),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_back_arrow),
                     contentDescription = "Back"
                 )
             }
@@ -46,19 +47,19 @@ fun DetailsBar(
         actions = {
             IconButton(onClick = onBookmarkClick) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_bookmark),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_bookmark),
                     contentDescription = "Bookmark"
                 )
             }
             IconButton(onClick = onShareClick) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_share),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_share),
                     contentDescription = "Share"
                 )
             }
             IconButton(onClick = onBrowsingClick) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_network),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_network),
                     contentDescription = "Browser"
                 )
             }
