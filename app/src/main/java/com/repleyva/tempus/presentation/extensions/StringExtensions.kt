@@ -37,3 +37,11 @@ fun String.formatDate(): String {
         this
     }
 }
+
+fun String?.cleanContent(): String {
+    if (this == null) return ""
+    val cleanXChars = replace(Regex("\\[\\+\\d+ chars]"), "")
+    val cleanHTMLTags = cleanXChars.replace(Regex("<ul>|</ul>|<li>|</li>|<p>|</p>|<br>|<br/>"), "")
+    val cleanedContent = cleanHTMLTags.replace(Regex("<[^>]*>"), "")
+    return cleanedContent.trim()
+}
