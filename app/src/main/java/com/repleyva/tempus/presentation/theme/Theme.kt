@@ -19,8 +19,7 @@ private val DarkColorScheme = darkColorScheme(
     error = systemErrorNight,
     surface = bottomNavigationBackgroundNight,
     onSurface = backgroundSecondaryNight,
-
-    )
+)
 
 private val LightColorScheme = lightColorScheme(
     primary = brandBlue100Light,

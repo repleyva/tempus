@@ -97,9 +97,6 @@ fun DetailsArticleImage(
     articleUrl: String,
     context: Context,
 ) {
-
-    var imageLoaded by remember { mutableStateOf(false) }
-
     AsyncImage(
         model = ImageRequest.Builder(context)
             .data(articleUrl)
@@ -113,8 +110,5 @@ fun DetailsArticleImage(
             .fillMaxWidth()
             .fillMaxHeight(0.4f)
             .background(MaterialTheme.colorScheme.surface),
-        onState = { state ->
-            imageLoaded = state is AsyncImagePainter.State.Success
-        }
     )
 }
