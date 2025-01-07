@@ -11,7 +11,7 @@ val textPrimaryLight = Color(0xFF1E3A5F)
 val textSecondaryLight = Color(0xFF5A7A9D)
 
 val backgroundPrimaryLight = Color(0xFFFFFFFF)
-val backgroundSecondaryLight = Color(0xFFFFFFFF)
+val backgroundSecondaryLight = Color(0xFFD1E4FF)
 
 val bottomNavigationBackgroundLight = Color(0xFFCEE5FA)
 

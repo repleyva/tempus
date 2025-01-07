@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -206,7 +208,15 @@ fun NewsNavigator() {
             }
 
             composable<NewsRouter.SettingsScreen> {
-                SettingsScreen()
+                val homeViewModel: HomeViewModel = hiltViewModel()
+                var showTimezoneDialog by remember { mutableStateOf(false) }
+
+                SettingsScreen(
+                    homeViewModel = homeViewModel,
+                    showTimezoneDialog = showTimezoneDialog,
+                    onShowTimezoneDialog = { showTimezoneDialog = true },
+                    onDismissTimezoneDialog = { showTimezoneDialog = false }
+                )
             }
         }
     }
