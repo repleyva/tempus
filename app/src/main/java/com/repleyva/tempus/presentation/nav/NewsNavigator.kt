@@ -29,6 +29,7 @@ import com.repleyva.tempus.R
 import com.repleyva.tempus.domain.model.Article
 import com.repleyva.tempus.presentation.extensions.navigationToTop
 import com.repleyva.tempus.presentation.screens.bookmark.BookmarkScreen
+import com.repleyva.tempus.presentation.screens.bookmark.BookmarkViewModel
 import com.repleyva.tempus.presentation.screens.detail.DetailsEvent
 import com.repleyva.tempus.presentation.screens.detail.DetailsScreen
 import com.repleyva.tempus.presentation.screens.detail.DetailsViewModel
@@ -191,7 +192,17 @@ fun NewsNavigator() {
             }
 
             composable<NewsRouter.BookmarkScreen> {
-                BookmarkScreen()
+                val viewModel: BookmarkViewModel = hiltViewModel()
+                val state = viewModel.state.value
+                BookmarkScreen(
+                    state = state,
+                    navigateToDetails = { article ->
+                        navigateToDetails(
+                            navController = navController,
+                            article = article
+                        )
+                    }
+                )
             }
 
             composable<NewsRouter.SettingsScreen> {
