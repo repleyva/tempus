@@ -12,7 +12,8 @@ import java.util.TimeZone
 import javax.inject.Inject
 
 /**
- * Todo: usar casos de uso para el repository
+ * Todo: Refactor
+ * - usar casos de uso para el repository
  */
 
 @HiltViewModel

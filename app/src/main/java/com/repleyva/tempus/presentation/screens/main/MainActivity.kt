@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -58,7 +59,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
+            val isDarkMode = isSystemInDarkTheme()
             val isDarkModeEnabled by settingsViewModel.theme.collectAsState()
+
+            LaunchedEffect(isDarkMode) {
+                if (isDarkMode != isDarkModeEnabled) {
+                    settingsViewModel.updateDarkMode(isDarkMode)
+                }
+            }
 
             RequestNotificationPermission()
 
