@@ -162,7 +162,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateCity(newTimezone: String) {
+    fun updateCity() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val city = dataStore.timezoneToCity()
