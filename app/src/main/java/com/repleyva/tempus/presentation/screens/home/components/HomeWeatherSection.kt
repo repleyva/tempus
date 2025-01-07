@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.repleyva.tempus.R
 import com.repleyva.tempus.domain.constants.Timezones.REGIONS
@@ -98,8 +100,11 @@ fun HomeWeatherSection(
         modifier = Modifier
             .fillMaxWidth()
             .height(topBarHeight)
-            .background(MaterialTheme.colorScheme.surface),
-        verticalArrangement = Arrangement.Bottom
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(bottomEnd = 24.dp, bottomStart = 24.dp)
+            ),
+        verticalArrangement = Arrangement.Bottom,
     ) {
 
         GreetingContent(
@@ -130,7 +135,7 @@ private fun GreetingContent(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top = paddingSmall,
+                top = paddingNormal,
                 start = paddingNormal,
                 end = paddingNormal
             ),
@@ -180,7 +185,7 @@ private fun WeatherDetails(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                bottom = paddingSmall,
+                bottom = paddingNormal,
                 start = paddingNormal,
                 end = paddingNormal
             ),

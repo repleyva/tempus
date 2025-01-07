@@ -4,41 +4,30 @@ import androidx.compose.ui.graphics.Color
 
 // Light Mode --------------------------------------
 
-// Brand Colors
-val brandBlue100Light = Color(0xFF2D5BD0)
-val brandBlue50Light = Color(0xFF688CE7)
+val brand100Light = Color(0xFF63A4FF)
+val brand50Light = Color(0xFF90C5FF)
 
-// Text Colors
-val textPrimaryLight = Color(0xFF231F20)
-val textSecondaryLight = Color(0xFF6D6265)
+val textPrimaryLight = Color(0xFF1E3A5F)
+val textSecondaryLight = Color(0xFF5A7A9D)
 
-// Background Colors
-val backgroundPrimaryLight = Color(0xFFF3F3F3)
+val backgroundPrimaryLight = Color(0xFFFFFFFF)
 val backgroundSecondaryLight = Color(0xFFFFFFFF)
 
-// Bottom Navigation Color
-val bottomNavigationBackgroundLight = Color(0xFFD5DCEE)
+val bottomNavigationBackgroundLight = Color(0xFFCEE5FA)
 
-// System Colors
-val systemErrorLight = Color(0xFFE02607)
-
+val systemErrorLight = Color(0xFFE57373)
 
 // Night Mode --------------------------------------
 
-// Brand Colors
-val brandBlue100Night = Color(0xFF416BD6)
-val brandBlue50Night = Color(0xFF84A2ED)
+val brand100Night = Color(0xFF4D94E6)
+val brand50Night = Color(0xFF77B2FF)
 
-// Text Colors
-val textPrimaryNight = Color(0xFFE0DCDD)
-val textSecondaryNight = Color(0xFF9B9697)
+val textPrimaryNight = Color(0xFFD1E4FF)
+val textSecondaryNight = Color(0xFFA3BBE6)
 
-// Background Colors
-val backgroundPrimaryNight = Color(0xFF1C1E21)
-val backgroundSecondaryNight = Color(0xFF2A2D30)
+val backgroundPrimaryNight = Color(0xFF102A43)
+val backgroundSecondaryNight = Color(0xFF1C3A5A)
 
-// Bottom Navigation Color
-val bottomNavigationBackgroundNight = Color(0xFF1A1A1A)
+val bottomNavigationBackgroundNight = Color(0xFF153A5B)
 
-// System Colors
-val systemErrorNight = Color(0xFFF72E0A)
+val systemErrorNight = Color(0xFFEF9A9A)
