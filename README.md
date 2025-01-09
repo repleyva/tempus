@@ -11,14 +11,6 @@ Stay informed and organized with the **Tempus**! This application provides the l
 - 🔍 **Search by Categories**: Quickly find news based on your interests.  
 - 🌦️ **Weather Updates**: Get real-time weather forecasts for your location.  
 
-# Screenshots Light
-<img src="_src/light/home_capture.png" width="32%"> <img src="_src/light/explore_capture.png" width="32%"> <img src="_src/light/search_capture.png" width="32%"> 
-<img src="_src/light/bookmark_capture.png" width="32%"> <img src="_src/light/detail_capture.png" width="32%"> <img src="_src/light/settings_capture.png" width="32%"> 
-
-# Screenshots Dark
-<img src="_src/dark/home_dark.png" width="32%"> <img src="_src/dark/explore_dark.png" width="32%"> <img src="_src/dark/search_dark.png" width="32%"> 
-<img src="_src/dark/bookmark_dark.png" width="32%"> <img src="_src/dark/detail_dark.png" width="32%"> <img src="_src/dark/settings_dark.png" width="32%"> 
-
 # Architecture
 - Presentation: Responsible for the UI and input management
 - Domain: Contains the business logic, including the use cases and repository interfaces
