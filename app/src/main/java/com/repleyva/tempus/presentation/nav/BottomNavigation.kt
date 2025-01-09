@@ -46,27 +46,22 @@ fun BottomNavigation(
                 selected = index == selected,
                 onClick = { onItemClick(index) },
                 icon = {
-                    Column(
-                        modifier = Modifier.height(bottomNavigationItemHeight),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(item.icon),
-                            contentDescription = null,
-                            modifier = Modifier.size(iconExtraLarge),
-                        )
-                        if (index == selected) {
-                            Text(
-                                text = item.text,
-                                style = MaterialTheme.typography.labelSmall
-                            )
-                        }
-                    }
+                    Icon(
+                        imageVector = ImageVector.vectorResource(item.icon),
+                        contentDescription = null,
+                        modifier = Modifier.size(iconExtraLarge),
+                    )
                 },
+                label = {
+                    Text(
+                        text = item.text,
+                        style = MaterialTheme.typography.labelSmall,
+                    )
+                },
+                alwaysShowLabel = false,
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.background,
-                    selectedTextColor = MaterialTheme.colorScheme.background,
+                    selectedTextColor = MaterialTheme.colorScheme.tertiary,
                     unselectedIconColor = MaterialTheme.colorScheme.tertiary,
                     unselectedTextColor = MaterialTheme.colorScheme.tertiary,
                     indicatorColor = MaterialTheme.colorScheme.tertiary
