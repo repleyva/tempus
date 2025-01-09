@@ -50,7 +50,8 @@ class NewsUseCasesTest {
     }
 
     @Test
-    fun getBreakingNews_fetchesFromRepository() = runTest { // Given
+    fun `getBreakingNews fetches data from Repository`() = runTest {
+        // Given
         val news = sampleNews()
         coEvery { repository.getBreakingNews(any()) } returns flowOf(news)
 
@@ -63,7 +64,8 @@ class NewsUseCasesTest {
     }
 
     @Test
-    fun getNewsEverything_fetchesFromRepository() = runTest { // Given
+    fun `getNewsEverything fetches data from Repository`() = runTest {
+        // Given
         val news = sampleNews()
         coEvery { repository.getNewsEverything(any()) } returns flowOf(news)
 
@@ -76,7 +78,8 @@ class NewsUseCasesTest {
     }
 
     @Test
-    fun getCategorizedNews_fetchesFromRepository() = runTest { // Given
+    fun `getCategorizedNews fetches data from Repository`() = runTest {
+        // Given
         val news = sampleNews()
         coEvery { repository.getCategorizedNews(any()) } returns flowOf(news)
 
@@ -89,7 +92,8 @@ class NewsUseCasesTest {
     }
 
     @Test
-    fun searchNews_fetchesFromRepository() = runTest { // Given
+    fun `searchNews fetches data from Repository`() = runTest {
+        // Given
         val news = sampleNews()
         coEvery { repository.searchNews(any(), any()) } returns flowOf(news)
 
@@ -102,7 +106,8 @@ class NewsUseCasesTest {
     }
 
     @Test
-    fun upsertArticle_callsDaoToInsertArticle() = runTest { // Given
+    fun `upsertArticle calls Dao to insert article`() = runTest {
+        // Given
         val article = sampleArticle()
 
         // When
@@ -113,7 +118,8 @@ class NewsUseCasesTest {
     }
 
     @Test
-    fun deleteArticle_callsDaoToDeleteArticle() = runTest { // Given
+    fun `deleteArticle calls Dao to delete article`() = runTest {
+        // Given
         val article = sampleArticle()
 
         // When
@@ -126,8 +132,14 @@ class NewsUseCasesTest {
     private fun sampleNews(): PagingData<Article> = PagingData.from(
         listOf(
             Article(
-                title = "title", description = "description", url = "url", urlToImage = "urlToImage", publishedAt = "publishedAt",
-                content = "content", source = Source("id", "name"), author = "author"
+                title = "title",
+                description = "description",
+                url = "url",
+                urlToImage = "urlToImage",
+                publishedAt = "publishedAt",
+                content = "content",
+                source = Source("id", "name"),
+                author = "author"
             )
         )
     )
