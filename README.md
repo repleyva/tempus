@@ -11,6 +11,10 @@ Stay informed and organized with the **Tempus**! This application provides the l
 - 🔍 **Search by Categories**: Quickly find news based on your interests.  
 - 🌦️ **Weather Updates**: Get real-time weather forecasts for your location.  
 
+# Preview
+<img src="_src/preview/giff_1.gif" width="32%"> <img src="_src/preview/giff_2.gif" width="32%"> <img src="_src/preview/giff_3.gif" width="32%">
+<img src="_src/preview/giff_4.gif" width="32%"> <img src="_src/preview/giff_5.gif" width="32%"> <img src="_src/preview/giff_6.gif" width="32%"> 
+
 # Screenshots Light
 <img src="_src/light/home_capture.png" width="32%"> <img src="_src/light/explore_capture.png" width="32%"> <img src="_src/light/search_capture.png" width="32%"> 
 <img src="_src/light/bookmark_capture.png" width="32%"> <img src="_src/light/detail_capture.png" width="32%"> <img src="_src/light/settings_capture.png" width="32%"> 
