@@ -42,7 +42,7 @@ class BookmarkViewModelTest {
     }
 
     @Test
-    fun getArticles_fetchesAndUpdatesState() = runTest {
+    fun `getArticles fetches and updates state`() = runTest {
         // Given
         val sampleArticles = sampleNews()
         coEvery { newsUseCases.getArticles() } returns flowOf(sampleArticles)
