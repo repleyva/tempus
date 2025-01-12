@@ -9,6 +9,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import com.repleyva.tempus.R
 import com.repleyva.tempus.domain.model.Article
@@ -24,7 +25,9 @@ fun BookmarkScreen(
     state: BookmarkState,
     navigateToDetails: (Article) -> Unit,
 ) {
-    Column {
+    Column(
+        modifier = Modifier.testTag("BookmarkScreen")
+    ) {
         TopAppBar(
             modifier = Modifier.padding(paddingSemiMedium),
             title = { ScreenTitleTextLarge(textResId = R.string.bookmark) },

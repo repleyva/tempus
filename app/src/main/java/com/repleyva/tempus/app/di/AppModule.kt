@@ -1,7 +1,8 @@
 package com.repleyva.tempus.app.di
 
-import android.app.Application
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.repleyva.tempus.app.di.data.LoggerInterceptors
 import com.repleyva.tempus.data.manager.LocalUserManagerImpl
@@ -28,14 +29,14 @@ object AppModule {
     @Provides
     @LoggerInterceptors
     fun provideLoggerInterceptor(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): Interceptor = ChuckerInterceptor(context)
 
     @Provides
     @Singleton
     fun provideLocalUserManager(
-        application: Application,
-    ): LocalUserManager = LocalUserManagerImpl(application)
+        dataStore: DataStore<Preferences>,
+    ): LocalUserManager = LocalUserManagerImpl(dataStore)
 
     @Provides
     @Singleton
