@@ -102,7 +102,7 @@ fun SettingsScreenContent(
         modifier = modifier
             .fillMaxSize()
             .statusBarsPadding()
-            .testTag("SettingsScreenContent"),
+            .testTag("SettingsScreen"),
         topBar = {
             TopAppBar(
                 modifier = Modifier.padding(paddingSemiMedium),

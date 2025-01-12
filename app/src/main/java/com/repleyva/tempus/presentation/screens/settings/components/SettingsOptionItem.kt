@@ -52,7 +52,9 @@ fun SettingsOptionItem(
     )
 
     ItemSettings(
-        modifier = modifier.clickable { onShowTimezoneDialog() },
+        modifier = modifier
+            .testTag("TimezoneOption")
+            .clickable { onShowTimezoneDialog() },
         icon = timezone.icon,
         contentDescription = timezone.title,
         text = timezone.title,

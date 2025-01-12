@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            RequestNotificationPermission()
+            // RequestNotificationPermission()
 
             TempusTheme(
                 darkTheme = isDarkModeEnabled,

@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.window.Dialog
 import com.repleyva.tempus.domain.constants.Timezones.REGIONS
 import com.repleyva.tempus.presentation.theme.Dimensions.borderSmall
@@ -34,7 +35,8 @@ fun TimezoneDialog(
                 .fillMaxHeight(0.6f)
                 .padding(paddingMedium)
                 .clip(MaterialTheme.shapes.medium)
-                .border(borderSmall, MaterialTheme.colorScheme.surface, MaterialTheme.shapes.medium),
+                .border(borderSmall, MaterialTheme.colorScheme.surface, MaterialTheme.shapes.medium)
+                .testTag("TimezoneDialog"),
             shape = MaterialTheme.shapes.medium,
             color = MaterialTheme.colorScheme.onSurface
         ) {

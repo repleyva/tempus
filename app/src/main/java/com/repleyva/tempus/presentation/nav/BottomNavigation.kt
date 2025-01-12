@@ -2,10 +2,7 @@ package com.repleyva.tempus.presentation.nav
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -15,16 +12,15 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.repleyva.tempus.R
-import com.repleyva.tempus.presentation.theme.Dimensions.bottomNavigationItemHeight
 import com.repleyva.tempus.presentation.theme.Dimensions.iconExtraLarge
 import com.repleyva.tempus.presentation.theme.TempusTheme
 
@@ -36,6 +32,7 @@ fun BottomNavigation(
 ) {
     NavigationBar(
         modifier = Modifier
+            .testTag("BottomNavigation")
             .fillMaxWidth()
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
         containerColor = MaterialTheme.colorScheme.surface,
@@ -48,7 +45,7 @@ fun BottomNavigation(
                 icon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(item.icon),
-                        contentDescription = null,
+                        contentDescription = item.text,
                         modifier = Modifier.size(iconExtraLarge),
                     )
                 },
