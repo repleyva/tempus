@@ -31,6 +31,7 @@ import com.repleyva.tempus.presentation.extensions.appVersion
 import com.repleyva.tempus.presentation.extensions.darkMode
 import com.repleyva.tempus.presentation.extensions.getAppVersionName
 import com.repleyva.tempus.presentation.extensions.timeZone
+import com.repleyva.tempus.presentation.screens.home.HomeEvent
 import com.repleyva.tempus.presentation.screens.home.HomeViewModel
 import com.repleyva.tempus.presentation.screens.settings.components.SettingsOptionItem
 import com.repleyva.tempus.presentation.screens.settings.components.TimezoneDialog
@@ -72,7 +73,7 @@ fun SettingsScreen(
         selectedTimezone = selectedTimezone,
         onTimezoneChange = { timezone ->
             viewModel.updateTimezone(timezone)
-            homeViewModel.updateCity()
+            homeViewModel.eventHandler(HomeEvent.UpdateCity)
         },
         onShowTimezoneDialog = onShowTimezoneDialog,
         onDismissTimezoneDialog = onDismissTimezoneDialog,
