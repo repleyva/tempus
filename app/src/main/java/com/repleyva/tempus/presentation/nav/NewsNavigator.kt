@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.repleyva.tempus.R
 import com.repleyva.tempus.domain.model.Article
+import com.repleyva.tempus.presentation.common.LaunchEffectOnce
 import com.repleyva.tempus.presentation.extensions.navigationToTop
 import com.repleyva.tempus.presentation.screens.bookmark.BookmarkScreen
 import com.repleyva.tempus.presentation.screens.bookmark.BookmarkViewModel
@@ -138,8 +139,8 @@ fun NewsNavigator() {
                 val selectedEmoji by settingsViewModel.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
                 val selectedCity by settingsViewModel.selectedTimezone.collectAsState()
 
-                LaunchedEffect(Unit) {
-                    homeViewModel.eventHandler(HomeEvent.FetchWeatherData)
+                LaunchEffectOnce {
+                    homeViewModel.eventHandler(HomeEvent.FetchWeatherData())
                 }
 
                 HomeScreen(
