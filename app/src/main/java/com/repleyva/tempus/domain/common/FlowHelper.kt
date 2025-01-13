@@ -16,13 +16,3 @@ class CommonFlow<T>(private val origin: Flow<T>) : Flow<T> by origin {
     ) = onEach(callback::invoke)
         .launchIn(coroutineScope ?: CoroutineScope(Main))
 }
-
-
-
-
-
-
-
-
-
-
