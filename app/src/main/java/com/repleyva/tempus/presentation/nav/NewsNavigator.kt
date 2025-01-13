@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -38,6 +39,7 @@ import com.repleyva.tempus.presentation.screens.detail.DetailsScreen
 import com.repleyva.tempus.presentation.screens.detail.DetailsViewModel
 import com.repleyva.tempus.presentation.screens.explore.ExploreScreen
 import com.repleyva.tempus.presentation.screens.explore.ExploreViewModel
+import com.repleyva.tempus.presentation.screens.home.HomeEvent
 import com.repleyva.tempus.presentation.screens.home.HomeScreen
 import com.repleyva.tempus.presentation.screens.home.HomeViewModel
 import com.repleyva.tempus.presentation.screens.settings.SettingsScreen
@@ -129,19 +131,19 @@ fun NewsNavigator() {
             composable<NewsRouter.HomeScreen> {
                 val homeViewModel: HomeViewModel = hiltViewModel()
                 val settingsViewModel: SettingsViewModel = hiltViewModel()
-                val everythingNews = homeViewModel.everythingNews.collectAsLazyPagingItems()
-                val breakingNews = homeViewModel.breakingNews.collectAsLazyPagingItems()
-                val weatherData by homeViewModel.weatherData.collectAsState(initial = null)
+                val homeState by homeViewModel.uiState.collectAsStateWithLifecycle()
+                val everythingNews = homeState.everythingNews.collectAsLazyPagingItems()
+                val breakingNews = homeState.breakingNews.collectAsLazyPagingItems()
                 val nickname by settingsViewModel.nickname.collectAsState(initial = "")
                 val selectedEmoji by settingsViewModel.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
                 val selectedCity by settingsViewModel.selectedTimezone.collectAsState()
 
                 LaunchedEffect(Unit) {
-                    homeViewModel.fetchWeatherData()
+                    homeViewModel.eventHandler(HomeEvent.FetchWeatherData)
                 }
 
                 HomeScreen(
-                    weatherData = weatherData,
+                    weatherData = homeState.weatherData,
                     selectedCity = selectedCity,
                     nickname = nickname,
                     selectedEmoji = selectedEmoji,
