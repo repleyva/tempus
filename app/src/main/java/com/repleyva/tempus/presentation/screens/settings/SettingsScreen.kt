@@ -73,7 +73,7 @@ fun SettingsScreen(
         selectedTimezone = selectedTimezone,
         onTimezoneChange = { timezone ->
             viewModel.updateTimezone(timezone)
-            homeViewModel.eventHandler(HomeEvent.UpdateCity)
+            homeViewModel.eventHandler(HomeEvent.FetchWeatherData(timezone))
         },
         onShowTimezoneDialog = onShowTimezoneDialog,
         onDismissTimezoneDialog = onDismissTimezoneDialog,
