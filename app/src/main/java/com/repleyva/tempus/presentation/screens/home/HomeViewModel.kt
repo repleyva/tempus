@@ -1,116 +1,107 @@
 package com.repleyva.tempus.presentation.screens.home
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.repleyva.tempus.data.remote.api.WeatherApi
+import com.repleyva.tempus.domain.common.DataState
 import com.repleyva.tempus.domain.constants.CacheConstants.BREAKING_NEWS
 import com.repleyva.tempus.domain.constants.CacheConstants.EVERYTHING_NEWS
 import com.repleyva.tempus.domain.constants.Constants.COUNTRY_PREFIX_DEFAULT
 import com.repleyva.tempus.domain.constants.Constants.FIVE_MINUTES_MILLIS
 import com.repleyva.tempus.domain.constants.Constants.SOURCES
-import com.repleyva.tempus.domain.constants.Constants.WEATHER_KEY
-import com.repleyva.tempus.domain.constants.Constants.WEATHER_URL
+import com.repleyva.tempus.domain.errors.orGenericError
 import com.repleyva.tempus.domain.extensions.filterArticles
 import com.repleyva.tempus.domain.extensions.timezoneToCity
 import com.repleyva.tempus.domain.manager.ArticleCacheManager
-import com.repleyva.tempus.domain.model.WeatherData
+import com.repleyva.tempus.domain.model.Article
 import com.repleyva.tempus.domain.use_cases.news.NewsUseCases
+import com.repleyva.tempus.domain.use_cases.weather.GetWeather
+import com.repleyva.tempus.presentation.base.SimpleMVIBaseViewModel
+import com.repleyva.tempus.presentation.extensions.timezoneToCity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
-
-/**
- * Todo: Refactor this
- */
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val newsUseCases: NewsUseCases,
     private val articleCacheManager: ArticleCacheManager,
+    private val getWeather: GetWeather,
     private val dataStore: DataStore<Preferences>,
-) : ViewModel() {
+) : SimpleMVIBaseViewModel<HomeState, HomeEvent>() {
 
-    private val _state = mutableStateOf(HomeState())
-    val state: State<HomeState> = _state
+    override fun initState(): HomeState = HomeState(
+        breakingNews = channelFlow { getBreakingNews() },
+        everythingNews = channelFlow { getEverythingNews() }
+    )
 
-    private val _isRefreshing = mutableStateOf(false)
-    val isRefreshing: State<Boolean> = _isRefreshing
-
-    private val _weatherData = MutableStateFlow<WeatherData?>(null)
-    val weatherData: StateFlow<WeatherData?> = _weatherData
-
-    val breakingNews = channelFlow {
-        val cachedData = articleCacheManager.getCachedArticles(BREAKING_NEWS)
-        if (cachedData != null) {
-            send(cachedData.filterArticles())
-        } else {
-            newsUseCases.getBreakingNews(COUNTRY_PREFIX_DEFAULT)
-                .cachedIn(viewModelScope)
-                .collectLatest { articles ->
-                    val validArticles = articles.filterArticles()
-                    articleCacheManager.cacheArticles(BREAKING_NEWS, validArticles)
-                    send(validArticles)
-                }
-        }
-    }
-
-    val everythingNews = channelFlow {
-        val cachedData = articleCacheManager.getCachedArticles(EVERYTHING_NEWS)
-        if (cachedData != null) {
-            send(cachedData.filterArticles())
-        } else {
-            newsUseCases.getNewsEverything(SOURCES)
-                .cachedIn(viewModelScope)
-                .collectLatest { articles ->
-                    val validArticles = articles.filterArticles()
-                    articleCacheManager.cacheArticles(EVERYTHING_NEWS, validArticles)
-                    send(validArticles)
-                }
+    override fun eventHandler(event: HomeEvent) {
+        when (event) {
+            is HomeEvent.FetchWeatherData -> fetchWeatherData(event.city)
         }
     }
 
     init {
-        fetchWeatherData()
         startAutoRefresh()
     }
 
-    /**
-     * Todo: Refactor to use case
-     */
+    private suspend fun ProducerScope<PagingData<Article>>.getBreakingNews() {
+        val cachedData = articleCacheManager.getCachedArticles(BREAKING_NEWS)
+        if (cachedData != null) {
+            send(cachedData.filterArticles())
+        } else {
+            getBreakingNewsUseCase { send(it) }
+        }
+    }
 
-    fun fetchWeatherData() {
+    private suspend fun getBreakingNewsUseCase(getValidArticles: suspend (PagingData<Article>) -> Unit = {}) {
+        newsUseCases.getBreakingNews(COUNTRY_PREFIX_DEFAULT)
+            .cachedIn(viewModelScope)
+            .collectLatest { articles ->
+                val validArticles = articles.filterArticles()
+                articleCacheManager.cacheArticles(BREAKING_NEWS, validArticles)
+                getValidArticles(validArticles)
+            }
+    }
+
+    private suspend fun ProducerScope<PagingData<Article>>.getEverythingNews() {
+        val cachedData = articleCacheManager.getCachedArticles(EVERYTHING_NEWS)
+        if (cachedData != null) {
+            send(cachedData.filterArticles())
+        } else {
+            getEverythingUseCase { send(it) }
+        }
+    }
+
+    private suspend fun getEverythingUseCase(getValidArticles: suspend (PagingData<Article>) -> Unit = {}) {
+        newsUseCases.getNewsEverything(SOURCES)
+            .cachedIn(viewModelScope)
+            .collectLatest { articles ->
+                val validArticles = articles.filterArticles()
+                articleCacheManager.cacheArticles(EVERYTHING_NEWS, validArticles)
+                getValidArticles(validArticles)
+            }
+    }
+
+    private fun fetchWeatherData(city: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val city = dataStore.timezoneToCity()
-                println("Fetching weather data for city: $city")
-                val apiKey = WEATHER_KEY
-                val weatherApi: WeatherApi = Retrofit.Builder()
-                    .baseUrl(WEATHER_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(WeatherApi::class.java)
-
-                val fetchedWeatherData = weatherApi.getWeather(city, apiKey)
-                _weatherData.value = fetchedWeatherData
-            } catch (e: HttpException) {
-                e.printStackTrace()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            val cityCached = if (city.isNullOrEmpty()) dataStore.timezoneToCity() else city.timezoneToCity()
+            getWeather(cityCached).collectCommon(viewModelScope) { dataState ->
+                updateUi {
+                    when (dataState) {
+                        is DataState.Data -> copy(weatherData = dataState.data, isWeatherLoading = false)
+                        is DataState.Loading -> copy(isWeatherLoading = dataState.isLoading)
+                        is DataState.Error -> copy(weatherError = dataState.error.orGenericError(), isWeatherLoading = false)
+                    }
+                }
             }
         }
     }
@@ -125,53 +116,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun refreshArticles() {
-        _isRefreshing.value = true
-        viewModelScope.launch {
-            refreshBreakingNews()
-            refreshEverythingNews()
-            _isRefreshing.value = false
-        }
-    }
-
     private fun refreshBreakingNews() {
         viewModelScope.launch {
             val cachedData = articleCacheManager.getCachedArticles(BREAKING_NEWS)
-            if (cachedData == null) {
-                newsUseCases.getBreakingNews(COUNTRY_PREFIX_DEFAULT)
-                    .cachedIn(viewModelScope)
-                    .collectLatest { articles ->
-                        val validArticles = articles.filterArticles()
-                        articleCacheManager.cacheArticles(BREAKING_NEWS, validArticles)
-                    }
-            }
+            if (cachedData == null) getBreakingNewsUseCase()
         }
     }
 
     private fun refreshEverythingNews() {
         viewModelScope.launch {
             val cachedData = articleCacheManager.getCachedArticles(EVERYTHING_NEWS)
-            if (cachedData == null) {
-                newsUseCases.getNewsEverything(SOURCES)
-                    .cachedIn(viewModelScope)
-                    .collectLatest { articles ->
-                        val validArticles = articles.filterArticles()
-                        articleCacheManager.cacheArticles(EVERYTHING_NEWS, validArticles)
-                    }
-            }
+            if (cachedData == null) getEverythingUseCase()
         }
     }
-
-    fun updateCity() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val city = dataStore.timezoneToCity()
-                println("Updating weather data for new city: $city")
-                fetchWeatherData()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
 }

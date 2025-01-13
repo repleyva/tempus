@@ -33,7 +33,6 @@ import com.repleyva.tempus.presentation.extensions.weatherDate
 import com.repleyva.tempus.presentation.theme.Dimensions.iconWeatherSize
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingExtraSmall
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingNormal
-import com.repleyva.tempus.presentation.theme.Dimensions.paddingSmall
 import com.repleyva.tempus.presentation.theme.Dimensions.topBarHeight
 import com.repleyva.tempus.presentation.theme.TempusTheme
 

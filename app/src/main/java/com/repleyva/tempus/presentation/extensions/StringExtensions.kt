@@ -1,5 +1,7 @@
 package com.repleyva.tempus.presentation.extensions
 
+import com.repleyva.tempus.domain.constants.Timezones.REGIONS
+import com.repleyva.tempus.domain.constants.Timezones.timezoneToCityMap
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -44,4 +46,10 @@ fun String?.cleanContent(): String {
     val cleanHTMLTags = cleanXChars.replace(Regex("<ul>|</ul>|<li>|</li>|<p>|</p>|<br>|<br/>"), "")
     val cleanedContent = cleanHTMLTags.replace(Regex("<[^>]*>"), "")
     return cleanedContent.trim()
+}
+
+fun String?.timezoneToCity(): String {
+    val timezoneString = this ?: "GMT -05:00 Bogotá, CO (America)"
+    val timezoneIndex = REGIONS.indexOfFirst { it.contains(timezoneString) }
+    return timezoneToCityMap[timezoneIndex] ?: "Bogotá"
 }
