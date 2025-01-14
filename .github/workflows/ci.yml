@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -18,9 +19,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
-
-      - name: setup permissions
-        run: chmod +x ./gradlew
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
