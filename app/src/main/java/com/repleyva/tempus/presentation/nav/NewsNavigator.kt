@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -135,9 +134,10 @@ fun NewsNavigator() {
                 val homeState by homeViewModel.uiState.collectAsStateWithLifecycle()
                 val everythingNews = homeState.everythingNews.collectAsLazyPagingItems()
                 val breakingNews = homeState.breakingNews.collectAsLazyPagingItems()
-                val nickname by settingsViewModel.nickname.collectAsState(initial = "")
-                val selectedEmoji by settingsViewModel.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
-                val selectedCity by settingsViewModel.selectedTimezone.collectAsState()
+                val settingsState by settingsViewModel.uiState.collectAsState()
+                val nickname by settingsState.nickname.collectAsState(initial = "")
+                val selectedEmoji by settingsState.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
+                val selectedCity by settingsState.selectedTimezone.collectAsState("")
 
                 LaunchEffectOnce {
                     homeViewModel.eventHandler(HomeEvent.FetchWeatherData())
