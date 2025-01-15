@@ -160,7 +160,7 @@ class SettingsViewModelTest {
             state.selectedTimezone.test {
                 val timezoneValue = awaitItem()
                 // Then
-                assertThat(timezoneValue).isEqualTo(expectedTimezone + "456")
+                assertThat(timezoneValue).isEqualTo(expectedTimezone)
                 cancelAndIgnoreRemainingEvents()
             }
 
