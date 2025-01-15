@@ -3,6 +3,10 @@ package com.repleyva.tempus.presentation
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.repleyva.tempus.domain.repository.SettingsRepository
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateDarkMode
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateNickname
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateSelectedEmoji
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateTimezone
 import com.repleyva.tempus.presentation.screens.settings.SettingsViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -44,7 +48,7 @@ class SettingsViewModelTest {
     @Test
     fun `update dark mode calls repository with correct value`() = runTest {
         // When
-        viewModel.updateDarkMode(true)
+        viewModel.eventHandler(UpdateDarkMode(true))
 
         // Then
         coVerify { settingsRepository.updateDarkMode(true) }
@@ -54,7 +58,7 @@ class SettingsViewModelTest {
     fun `update nickname calls repository with correct nickname`() = runTest {
         // When
         val newNickname = sampleNickname
-        viewModel.updateNickname(newNickname)
+        viewModel.eventHandler(UpdateNickname(newNickname))
 
         // Then
         coVerify { settingsRepository.updateNickname(newNickname) }
@@ -64,7 +68,7 @@ class SettingsViewModelTest {
     fun `update selected emoji calls repository with correct emoji`() = runTest {
         // When
         val newEmoji = sampleEmoji
-        viewModel.updateSelectedEmoji(newEmoji)
+        viewModel.eventHandler(UpdateSelectedEmoji(newEmoji))
 
         // Then
         coVerify { settingsRepository.updateSelectedEmoji(newEmoji) }
@@ -74,73 +78,97 @@ class SettingsViewModelTest {
     fun `update timezone calls repository with correct timezone`() = runTest {
         // When
         val newTimezone = sampleTimezone
-        viewModel.updateTimezone(newTimezone)
+        viewModel.eventHandler(UpdateTimezone(newTimezone))
 
         // Then
         coVerify { settingsRepository.updateTimezone(newTimezone) }
     }
 
     @Test
-    fun `theme emits correct value from repository`() = runTest {
+    fun `theme should be correct based on repository value`() = runTest {
         // Given
-        val isDarkModeEnabled = false
-        coEvery { settingsRepository.getMode() } returns flowOf(isDarkModeEnabled)
+        val expectedTheme = false
+        coEvery { settingsRepository.getMode() } returns flowOf(expectedTheme)
 
         // When
-        viewModel.theme.test {
-            val themeValue = awaitItem()
+        viewModel.uiState.test {
+            val state = awaitItem()
 
-            // Then
-            assertThat(themeValue).isEqualTo(isDarkModeEnabled)
+            state.theme.test {
+                val themeValue = awaitItem()
+                // Then
+                assertThat(themeValue).isEqualTo(expectedTheme)
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `nickname emits correct value from repository`() = runTest {
+    fun `nickname should be correct based on repository value`() = runTest {
         // Given
-        val nickname = sampleNickname
-        coEvery { settingsRepository.getNickname() } returns flowOf(nickname)
+        val expectedNickname = sampleNickname
+        coEvery { settingsRepository.getNickname() } returns flowOf(expectedNickname)
 
         // When
-        viewModel.nickname.test {
-            val nicknameValue = awaitItem()
+        viewModel.uiState.test {
+            val state = awaitItem()
 
-            // Then
-            assertThat(nicknameValue).isEqualTo(nickname)
+            state.nickname.test {
+                val nicknameValue = awaitItem()
+                // Then
+                assertThat(nicknameValue).isEqualTo(expectedNickname)
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `selected emoji emits correct value from repository`() = runTest {
+    fun `selectedEmoji should be correct based on repository value`() = runTest {
         // Given
-        val emoji = sampleEmoji
-        coEvery { settingsRepository.getSelectedEmoji() } returns flowOf(emoji)
+        val expectedEmoji = sampleEmoji
+        coEvery { settingsRepository.getSelectedEmoji() } returns flowOf(expectedEmoji)
 
         // When
-        viewModel.selectedEmoji.test {
-            val emojiValue = awaitItem()
+        viewModel.uiState.test {
+            val state = awaitItem()
 
-            // Then
-            assertThat(emojiValue).isEqualTo(emoji)
+            state.selectedEmoji.test {
+                val emojiValue = awaitItem()
+                // Then
+                assertThat(emojiValue).isEqualTo(expectedEmoji)
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `selected timezone emits correct value from repository`() = runTest {
+    fun `selectedTimezone should be correct based on repository value`() = runTest {
         // Given
-        val timezone = sampleTimezone
-        coEvery { settingsRepository.getTimezone() } returns flowOf(timezone)
+        val expectedTimezone = sampleTimezone
+        coEvery { settingsRepository.getTimezone() } returns flowOf(expectedTimezone)
 
         // When
-        viewModel.selectedTimezone.test {
-            val timezoneValue = awaitItem()
+        viewModel.uiState.test {
+            val state = awaitItem()
 
-            // Then
-            assertThat(timezoneValue).isEqualTo(timezone)
+            state.selectedTimezone.test {
+                val timezoneValue = awaitItem()
+                // Then
+                assertThat(timezoneValue).isEqualTo(expectedTimezone)
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
-    private val sampleTimezone = "America/Bogota"
-    private val sampleNickname = ""
+    private val sampleTimezone = "America/New York"
+    private val sampleNickname = "John Doe"
     private val sampleEmoji = "\uD83D\uDE36"
 }

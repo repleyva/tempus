@@ -28,6 +28,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.repleyva.tempus.presentation.nav.NewsNavGraph
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateDarkMode
 import com.repleyva.tempus.presentation.screens.settings.SettingsViewModel
 import com.repleyva.tempus.presentation.theme.TempusTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,11 +61,12 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val isDarkMode = isSystemInDarkTheme()
-            val isDarkModeEnabled by settingsViewModel.theme.collectAsState()
+            val settingsState by settingsViewModel.uiState.collectAsState()
+            val isDarkModeEnabled by settingsState.theme.collectAsState(initial = isDarkMode)
 
             LaunchedEffect(isDarkMode) {
                 if (isDarkMode != isDarkModeEnabled) {
-                    settingsViewModel.updateDarkMode(isDarkMode)
+                    settingsViewModel.eventHandler(UpdateDarkMode(isDarkMode))
                 }
             }
 

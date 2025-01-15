@@ -33,6 +33,10 @@ import com.repleyva.tempus.presentation.extensions.getAppVersionName
 import com.repleyva.tempus.presentation.extensions.timeZone
 import com.repleyva.tempus.presentation.screens.home.HomeEvent
 import com.repleyva.tempus.presentation.screens.home.HomeViewModel
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateDarkMode
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateNickname
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateSelectedEmoji
+import com.repleyva.tempus.presentation.screens.settings.SettingsEvent.UpdateTimezone
 import com.repleyva.tempus.presentation.screens.settings.components.SettingsOptionItem
 import com.repleyva.tempus.presentation.screens.settings.components.TimezoneDialog
 import com.repleyva.tempus.presentation.screens.settings.components.UserSection
@@ -49,11 +53,12 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
 
-    val theme by viewModel.theme.collectAsState()
-    val nickname by viewModel.nickname.collectAsState()
-    val selectedEmoji by viewModel.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
+    val state by viewModel.uiState.collectAsState()
+    val theme by state.theme.collectAsState(false)
+    val nickname by state.nickname.collectAsState("")
+    val selectedEmoji by state.selectedEmoji.collectAsState(initial = "\uD83D\uDE36")
     var editableNickname by rememberSaveable { mutableStateOf(nickname) }
-    val selectedTimezone by viewModel.selectedTimezone.collectAsState()
+    val selectedTimezone by state.selectedTimezone.collectAsState("")
 
     val context = LocalContext.current
 
@@ -65,14 +70,14 @@ fun SettingsScreen(
         nickname = nickname,
         onNicknameChange = { newNickname ->
             editableNickname = newNickname
-            viewModel.updateNickname(newNickname)
+            viewModel.eventHandler(UpdateNickname(newNickname))
         },
         selectedEmoji = selectedEmoji,
-        onEmojiChange = { newEmoji -> viewModel.updateSelectedEmoji(newEmoji) },
-        onToggleDarkMode = { isChecked -> viewModel.updateDarkMode(isChecked) },
+        onEmojiChange = { newEmoji -> viewModel.eventHandler(UpdateSelectedEmoji(newEmoji)) },
+        onToggleDarkMode = { isChecked -> viewModel.eventHandler(UpdateDarkMode(isChecked)) },
         selectedTimezone = selectedTimezone,
         onTimezoneChange = { timezone ->
-            viewModel.updateTimezone(timezone)
+            viewModel.eventHandler(UpdateTimezone(timezone))
             homeViewModel.eventHandler(HomeEvent.FetchWeatherData(timezone))
         },
         onShowTimezoneDialog = onShowTimezoneDialog,
