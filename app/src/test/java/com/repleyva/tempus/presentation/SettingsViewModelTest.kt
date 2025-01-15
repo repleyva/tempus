@@ -10,6 +10,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -133,6 +134,7 @@ class SettingsViewModelTest {
 
         // When
         viewModel.selectedTimezone.test {
+            delay(100)
             val timezoneValue = awaitItem()
 
             // Then
