@@ -150,7 +150,7 @@ class SettingsViewModelTest {
     @Test
     fun `selectedTimezone should be correct based on repository value`() = runTest {
         // Given
-        val expectedTimezone = sampleTimezone + "45"
+        val expectedTimezone = sampleTimezone
         coEvery { settingsRepository.getTimezone() } returns flowOf(expectedTimezone)
 
         // When
@@ -160,7 +160,7 @@ class SettingsViewModelTest {
             state.selectedTimezone.test {
                 val timezoneValue = awaitItem()
                 // Then
-                assertThat(timezoneValue).isEqualTo(expectedTimezone)
+                assertThat(timezoneValue).isEqualTo(expectedTimezone + "456")
                 cancelAndIgnoreRemainingEvents()
             }
 
