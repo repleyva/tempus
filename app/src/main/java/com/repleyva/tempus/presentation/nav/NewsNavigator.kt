@@ -37,6 +37,7 @@ import com.repleyva.tempus.presentation.screens.bookmark.BookmarkViewModel
 import com.repleyva.tempus.presentation.screens.detail.DetailsEvent
 import com.repleyva.tempus.presentation.screens.detail.DetailsScreen
 import com.repleyva.tempus.presentation.screens.detail.DetailsViewModel
+import com.repleyva.tempus.presentation.screens.explore.ExploreEvent.OnRefreshArticles
 import com.repleyva.tempus.presentation.screens.explore.ExploreScreen
 import com.repleyva.tempus.presentation.screens.explore.ExploreViewModel
 import com.repleyva.tempus.presentation.screens.home.HomeEvent
@@ -161,17 +162,17 @@ fun NewsNavigator() {
 
             composable<NewsRouter.ExploreScreen> {
                 val viewModel: ExploreViewModel = hiltViewModel()
-                val state = viewModel.state.value
-                val articles = viewModel.articles.collectAsLazyPagingItems()
-                val searchResults = viewModel.searchResults.collectAsLazyPagingItems()
+                val state by viewModel.uiState.collectAsStateWithLifecycle()
+                val articles = state.articles.collectAsLazyPagingItems()
+                val searchResults = state.searchResults.collectAsLazyPagingItems()
 
                 ExploreScreen(
                     exploreState = state,
                     articles = articles,
                     searchResults = searchResults,
                     event = viewModel::eventHandler,
-                    isRefreshing = viewModel.isRefreshing.value,
-                    onRefresh = { viewModel.refreshArticles() },
+                    isRefreshing = state.isRefreshing,
+                    onRefresh = { viewModel.eventHandler(OnRefreshArticles) },
                     navigateToDetails = { article ->
                         navigateToDetails(
                             navController = navController,

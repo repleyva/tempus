@@ -182,7 +182,7 @@ fun PreviewSearchScreen() {
 
     val dummyState = ExploreState(
         searchQuery = "Test Search",
-        articles = null
+        articles = flowOf()
     )
     val articlesFlow = flowOf(PagingData.from(listOf(dummyArticle, dummyArticle, dummyArticle, dummyArticle)))
     val lazyPagingArticles = articlesFlow.collectAsLazyPagingItems()

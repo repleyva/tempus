@@ -9,4 +9,6 @@ sealed interface ExploreEvent : Event {
     data object OnSearch : ExploreEvent
 
     data class OnCategorySelected(val category: String) : ExploreEvent
+
+    data object OnRefreshArticles : ExploreEvent
 }
