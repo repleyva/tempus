@@ -1,9 +1,10 @@
 package com.repleyva.tempus.presentation
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.repleyva.tempus.domain.constants.Constants.dummyArticle
 import com.repleyva.tempus.domain.use_cases.news.NewsUseCases
-import com.repleyva.tempus.presentation.screens.detail.DetailsEvent
+import com.repleyva.tempus.presentation.screens.detail.DetailsEvent.UpsertDeleteArticle
 import com.repleyva.tempus.presentation.screens.detail.DetailsViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -53,11 +54,15 @@ class DetailsViewModelTest {
         coEvery { newsUseCases.upsertArticle(article) } just runs
 
         // When
-        viewModel.eventHandler(DetailsEvent.UpsertDeleteArticle(article))
+        viewModel.eventHandler(UpsertDeleteArticle(article))
 
         // Then
         coVerify { newsUseCases.upsertArticle(article) }
-        assertThat(viewModel.sideEffect).isEqualTo("Article Saved")
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertThat(state.sideEffect).isEqualTo("Article Saved")
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test
@@ -70,24 +75,15 @@ class DetailsViewModelTest {
         coEvery { newsUseCases.deleteArticle(article) } just runs
 
         // When
-        viewModel.eventHandler(DetailsEvent.UpsertDeleteArticle(article))
+        viewModel.eventHandler(UpsertDeleteArticle(article))
 
         // Then
         coVerify { newsUseCases.deleteArticle(article) }
-        assertThat(viewModel.sideEffect).isEqualTo("Article Deleted")
-    }
-
-
-    @Test
-    fun `remove side effect clears the stored side effect`() = runTest {
-        // Set a side effect first
-        viewModel.sideEffect = "Article Saved"
-
-        // When
-        viewModel.eventHandler(DetailsEvent.RemoveSideEffect)
-
-        // Then
-        assertThat(viewModel.sideEffect).isNull()
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertThat(state.sideEffect).isEqualTo("Article Deleted")
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     private fun sampleNews() = dummyArticle
