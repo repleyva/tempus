@@ -76,5 +76,5 @@ fun Context.appVersion(
 )
 
 fun Context.getAppVersionName(): String = runCatching {
-    packageManager.getPackageInfo(packageName, 0).versionName
+    packageManager.getPackageInfo(packageName, 0).versionName.orEmpty()
 }.getOrElse { "" }
