@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId = "com.repleyva.tempus"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
 
@@ -72,6 +72,8 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
         }
     }
 }
@@ -114,8 +116,8 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.newsapi)
-    implementation (libs.okhttp)
-    implementation (libs.okhttp.logging.interceptor)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
