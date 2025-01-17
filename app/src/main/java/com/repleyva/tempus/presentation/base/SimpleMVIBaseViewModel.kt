@@ -1,5 +1,6 @@
 package com.repleyva.tempus.presentation.base
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,3 +22,10 @@ abstract class SimpleMVIBaseViewModel<S : State, E : Event> : ViewModel() {
     }
 
 }
+
+interface Event
+
+interface Action
+
+@Stable
+interface State

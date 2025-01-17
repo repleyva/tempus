@@ -37,6 +37,7 @@ import com.repleyva.tempus.presentation.common.DetailsArticleImage
 import com.repleyva.tempus.presentation.extensions.cleanContent
 import com.repleyva.tempus.presentation.extensions.openUrl
 import com.repleyva.tempus.presentation.extensions.shareUrl
+import com.repleyva.tempus.presentation.screens.detail.components.DetailsBar
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingExtraLarge
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingMedium
 import com.repleyva.tempus.presentation.theme.Dimensions.paddingNormal

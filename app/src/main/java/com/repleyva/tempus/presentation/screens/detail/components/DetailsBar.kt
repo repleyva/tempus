@@ -1,4 +1,4 @@
-package com.repleyva.tempus.presentation.screens.detail
+package com.repleyva.tempus.presentation.screens.detail.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background

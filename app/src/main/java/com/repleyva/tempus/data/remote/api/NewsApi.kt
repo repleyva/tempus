@@ -1,7 +1,7 @@
 package com.repleyva.tempus.data.remote.api
 
-import com.repleyva.tempus.BuildConfig.API_KEY
 import com.repleyva.tempus.data.remote.dto.NewsResponse
+import com.repleyva.tempus.domain.constants.Constants.API_KEY
 import com.repleyva.tempus.domain.constants.Constants.COUNTRY_PREFIX_DEFAULT
 import retrofit2.http.GET
 import retrofit2.http.Query
