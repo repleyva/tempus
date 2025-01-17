@@ -25,20 +25,21 @@ class MainViewModel @Inject constructor(
 
     private fun init() {
         appEntryUseCases.readAppEntry().onEach { shouldStartFromHomeScreen ->
-
-            updateUi {
-                copy(
-                    startDestination = if (shouldStartFromHomeScreen) {
-                        NewsRouter.NewsNavigation
-                    } else {
-                        NewsRouter.AppStartNavigation
-                    }
-                )
-            }
-
+            updateDestination(shouldStartFromHomeScreen)
             delay(300)
-
             updateUi { copy(splashCondition = false) }
         }.launchIn(viewModelScope)
+    }
+
+    private fun updateDestination(shouldStartFromHomeScreen: Boolean) {
+        updateUi {
+            copy(
+                startDestination = if (shouldStartFromHomeScreen) {
+                    NewsRouter.NewsNavigation
+                } else {
+                    NewsRouter.AppStartNavigation
+                }
+            )
+        }
     }
 }
