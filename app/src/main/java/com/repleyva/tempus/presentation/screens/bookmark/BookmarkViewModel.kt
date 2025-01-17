@@ -1,34 +1,34 @@
 package com.repleyva.tempus.presentation.screens.bookmark
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.repleyva.tempus.domain.use_cases.news.NewsUseCases
+import com.repleyva.tempus.presentation.base.SimpleMVIBaseViewModel
+import com.repleyva.tempus.presentation.screens.bookmark.BookmarkEvent.GetArticles
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-/**
- * Todo: refactor
- */
-
 @HiltViewModel
 class BookmarkViewModel @Inject constructor(
     private val newsUseCases: NewsUseCases,
-) : ViewModel() {
+) : SimpleMVIBaseViewModel<BookmarkState, BookmarkEvent>() {
 
-    private val _state = mutableStateOf(BookmarkState())
-    val state: State<BookmarkState> = _state
+    override fun initState() = BookmarkState()
+
+    override fun eventHandler(event: BookmarkEvent) {
+        when (event) {
+            GetArticles -> getArticles()
+        }
+    }
 
     init {
         getArticles()
     }
 
-    fun getArticles() {
+    private fun getArticles() {
         newsUseCases.getArticles().onEach {
-            _state.value = _state.value.copy(articles = it)
+            updateUi { copy(articles = it) }
         }.launchIn(viewModelScope)
     }
 }

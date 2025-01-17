@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.repleyva.tempus.domain.use_cases.app_entry.AppEntryUseCases
 import com.repleyva.tempus.presentation.base.SimpleMVIBaseViewModel
 import com.repleyva.tempus.presentation.nav.NewsRouter
+import com.repleyva.tempus.presentation.screens.main.MainEvent.Init
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -19,7 +20,7 @@ class MainViewModel @Inject constructor(
 
     override fun eventHandler(event: MainEvent) {
         when (event) {
-            is MainEvent.Init -> init()
+            is Init -> init()
         }
     }
 

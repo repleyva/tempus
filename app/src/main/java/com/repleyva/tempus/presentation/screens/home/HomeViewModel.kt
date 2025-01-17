@@ -20,6 +20,7 @@ import com.repleyva.tempus.domain.use_cases.news.NewsUseCases
 import com.repleyva.tempus.domain.use_cases.weather.GetWeather
 import com.repleyva.tempus.presentation.base.SimpleMVIBaseViewModel
 import com.repleyva.tempus.presentation.extensions.timezoneToCity
+import com.repleyva.tempus.presentation.screens.home.HomeEvent.FetchWeatherData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ProducerScope
@@ -45,7 +46,7 @@ class HomeViewModel @Inject constructor(
 
     override fun eventHandler(event: HomeEvent) {
         when (event) {
-            is HomeEvent.FetchWeatherData -> fetchWeatherData(event.city)
+            is FetchWeatherData -> fetchWeatherData(event.city)
         }
     }
 

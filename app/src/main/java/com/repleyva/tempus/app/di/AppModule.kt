@@ -18,10 +18,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import javax.inject.Singleton
 
-/**
- * Todo: refactor
- */
-
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {

@@ -14,7 +14,7 @@ abstract class BaseUseCase() {
     protected fun <T> handlerErrorMapper(
         exceptionMapper: ExceptionMapper = GenericErrorMapper,
         action: suspend ProducerScope<DataState<T>>.() -> Unit,
-    ): CommonFlow<DataState<T>> = channelFlow<DataState<T>> {
+    ): CommonFlow<DataState<T>> = channelFlow {
         executeAction(exceptionMapper, action)
     }.asCommonFlow()
 

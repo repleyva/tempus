@@ -36,10 +36,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-/**
- * Todo: refactor
- */
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NewsModule {
@@ -68,12 +64,6 @@ object NewsModule {
             .build()
             .create(NewsApi::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(
-        @ApplicationContext context: Context,
-    ): SharedPreferences = context.getSharedPreferences("shared_preference", Context.MODE_PRIVATE)
 
     @Provides
     @Singleton

@@ -1,9 +1,11 @@
 package com.repleyva.tempus.presentation
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.repleyva.tempus.domain.constants.Constants.dummyArticle
 import com.repleyva.tempus.domain.model.Article
 import com.repleyva.tempus.domain.use_cases.news.NewsUseCases
+import com.repleyva.tempus.presentation.screens.bookmark.BookmarkEvent.GetArticles
 import com.repleyva.tempus.presentation.screens.bookmark.BookmarkViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -48,10 +50,14 @@ class BookmarkViewModelTest {
         coEvery { newsUseCases.getArticles() } returns flowOf(sampleArticles)
 
         // When
-        viewModel.getArticles()
+        viewModel.eventHandler(GetArticles)
 
         // Then
-        assertThat(viewModel.state.value.articles).isEqualTo(sampleArticles)
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertThat(state.articles).isEqualTo(sampleArticles)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
 
