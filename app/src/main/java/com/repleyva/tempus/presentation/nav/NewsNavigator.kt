@@ -184,8 +184,9 @@ fun NewsNavigator() {
 
             composable<NewsRouter.DetailsScreen> {
                 val viewModel: DetailsViewModel = hiltViewModel()
-                if (viewModel.sideEffect != null) {
-                    Toast.makeText(LocalContext.current, viewModel.sideEffect, Toast.LENGTH_SHORT).show()
+                val state by viewModel.uiState.collectAsStateWithLifecycle()
+                if (state.sideEffect != null) {
+                    Toast.makeText(LocalContext.current, state.sideEffect, Toast.LENGTH_SHORT).show()
                     viewModel.eventHandler(DetailsEvent.RemoveSideEffect)
                 }
                 navController.previousBackStackEntry?.savedStateHandle?.get<Article?>("article")?.let { article ->
