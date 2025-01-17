@@ -19,7 +19,7 @@ plugins {
 
 android {
     namespace = "com.repleyva.tempus"
-    compileSdk = 34
+    compileSdk = 35
 
     val properties = Properties()
     properties.load(FileInputStream(rootProject.file("local.properties")))
@@ -54,11 +54,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
