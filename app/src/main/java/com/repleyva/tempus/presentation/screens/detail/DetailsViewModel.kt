@@ -44,5 +44,4 @@ class DetailsViewModel @Inject constructor(
         newsUseCases.deleteArticle(article = article)
         updateUi { copy(sideEffect = "Article Deleted") }
     }
-
 }
