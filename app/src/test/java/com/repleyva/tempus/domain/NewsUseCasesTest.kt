@@ -6,6 +6,7 @@ import com.repleyva.tempus.data.local.NewsDao
 import com.repleyva.tempus.domain.constants.Constants.dummyArticle
 import com.repleyva.tempus.domain.model.Article
 import com.repleyva.tempus.domain.model.Source
+import com.repleyva.tempus.domain.repository.NewsCachedRepository
 import com.repleyva.tempus.domain.repository.NewsRepository
 import com.repleyva.tempus.domain.use_cases.news.DeleteArticle
 import com.repleyva.tempus.domain.use_cases.news.GetBreakingNews
@@ -29,7 +30,7 @@ class NewsUseCasesTest {
     private lateinit var repository: NewsRepository
 
     @RelaxedMockK
-    private lateinit var newsDao: NewsDao
+    private lateinit var newsCachedRepository: NewsCachedRepository
 
     private lateinit var getBreakingNews: GetBreakingNews
     private lateinit var getNewsEverything: GetNewsEverything
@@ -45,8 +46,8 @@ class NewsUseCasesTest {
         getNewsEverything = GetNewsEverything(repository)
         getCategorizedNews = GetCategorizedNews(repository)
         searchNews = SearchNews(repository)
-        upsertArticle = UpsertArticle(newsDao)
-        deleteArticle = DeleteArticle(newsDao)
+        upsertArticle = UpsertArticle(newsCachedRepository)
+        deleteArticle = DeleteArticle(newsCachedRepository)
     }
 
     @Test
@@ -114,7 +115,7 @@ class NewsUseCasesTest {
         upsertArticle(article)
 
         // Then
-        coVerify { newsDao.upsert(article) }
+        coVerify { newsCachedRepository.upsertArticle(article) }
     }
 
     @Test
@@ -126,7 +127,7 @@ class NewsUseCasesTest {
         deleteArticle(article)
 
         // Then
-        coVerify { newsDao.delete(article) }
+        coVerify { newsCachedRepository.deleteArticle(article) }
     }
 
     private fun sampleNews(): PagingData<Article> = PagingData.from(
