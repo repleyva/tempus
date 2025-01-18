@@ -1,11 +1,12 @@
 package com.repleyva.tempus.domain.use_cases.news
 
-import com.repleyva.tempus.data.local.NewsDao
+import com.repleyva.tempus.domain.repository.NewsCachedRepository
 
 class GetArticle(
-    private val newsDao: NewsDao,
+    private val newsCachedRepository: NewsCachedRepository,
 ) {
+
     suspend operator fun invoke(
         url: String,
-    ) = newsDao.getArticle(url = url)
+    ) = newsCachedRepository.getArticle(url = url)
 }

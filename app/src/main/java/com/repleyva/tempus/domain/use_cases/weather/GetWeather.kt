@@ -10,7 +10,7 @@ class GetWeather @Inject constructor(
     private val weatherRepository: WeatherRepository,
 ) : BaseUseCase() {
 
-    suspend operator fun invoke(city: String) = handlerErrorMapper(GenericErrorMapper) {
+    operator fun invoke(city: String) = handlerErrorMapper(GenericErrorMapper) {
         send(DataState.Loading())
         val response = weatherRepository.getWeather(city)
         send(DataState.Data(response))
