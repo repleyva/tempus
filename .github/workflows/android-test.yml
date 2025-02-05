@@ -2,8 +2,8 @@ name: Android Testing
 on: push
 
 jobs:
-  run-tests:
-    runs-on: ubuntu-20.04
+  android-tests:
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 17
@@ -23,10 +23,17 @@ jobs:
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
-      - name: Run connected tests
-        uses: ReactiveCircus/android-emulator-runner@v2
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Create AVD and launch emulator
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-            api-level: 30
-            target: google_apis
-            arch: x86_64
-            script: ./gradlew connectedCheck
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: Nexus 6
+          script: ./gradlew connectedCheck
+
+      - name: Run Instrumentation Tests
+        run: ./gradlew connectedDebugAndroidTest
