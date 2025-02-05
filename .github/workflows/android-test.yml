@@ -1,9 +1,9 @@
-name: Unit Testing
-on: [push]
+name: Android Testing
+on: push
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  run-tests:
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 17
@@ -23,9 +23,10 @@ jobs:
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
-      - name: Unit Test
-        run: ./gradlew testDebugUnitTest
-
-      - name: Android Test Report
-        uses: asadmansr/android-test-report-action@v1.2.0
-        if: ${{ always() }}
+      - name: Run connected tests
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+            api-level: 30
+            target: google_apis
+            arch: x86_64
+            script: ./gradlew connectedCheck
