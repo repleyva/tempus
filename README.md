@@ -3,7 +3,6 @@
 Stay informed and organized with the **Tempus**! This application provides the latest news, categorized by topics, and real-time weather updates to keep you prepared for the day. Save your favorite articles and easily search through categories to find the content that matters most.
 
 ---
-
 # Features
 
 - 📰 **Latest News**: Access the most recent news articles from a variety of categories.  
